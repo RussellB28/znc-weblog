@@ -7,8 +7,8 @@ The module is based on an earlier python version of the module that can be found
 * Download this repository (wget https://github.com/RussellB28/znc-weblog/archive/master.zip) into the source directory of your ZNC Installation
 * Unzip master.zip (using unzip master.zip)
 * From the source directory, run ```./znc-buildmod modules/weblog.cpp modules/weblog.so```
-* Run ```make install`` **or** copy the compiled module to the directory your znc is running in (cp modules/weblog.so /path/to/znc/lib/znc/weblog.so)
-* Run ```make install`` **or** Copy the web templates to the directory your znc is running on (cp -R modules/data/weblog /path/to/znc/share/znc/modules)
+* Run ```make install``` **or** copy the compiled module to the directory your znc is running in (cp modules/weblog.so /path/to/znc/lib/znc/weblog.so)
+* Run ```make install``` **or** Copy the web templates to the directory your znc is running on (cp -R modules/data/weblog /path/to/znc/share/znc/modules)
 
 Alternatively you can download the master.zip elsewhere and copy the files into the source directory yourself. The directory/file structure is as follows
 ```
