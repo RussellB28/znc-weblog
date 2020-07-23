@@ -1,0 +1,26 @@
+<? IF LogErrorLoop ?>
+<? INC Header.tmpl ?>
+<? INC Scope.tmpl ?>
+<? INC Breadcrumbs.tmpl ?>
+<div class="section">
+	<h3>Error</h3>
+	<div class="sectionbg">
+		<div class="sectionbody">
+			<div class="subsection">
+				<p><b>The following errors occured:</b> 
+				<ul>
+				<? LOOP LogErrorLoop ?>
+				<? IF Error ?>
+				<li><? VAR Error ?></li>
+				<? ENDIF ?>
+				<? ENDLOOP ?>
+
+			</div>
+		</div>
+	</div>
+</div>
+<? INC Footer.tmpl ?>
+<? ENDIF ?>
+<pre>
+<? LOOP LogLoop ?><? VAR log ?><? LogLoop ?>
+</pre>

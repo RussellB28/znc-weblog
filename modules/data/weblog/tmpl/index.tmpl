@@ -1,0 +1,50 @@
+<? INC Header.tmpl ?>
+
+<? INC Scope.tmpl ?>
+<? INC Breadcrumbs.tmpl ?>
+<? IF !noscope && !LogErrorLoop ?>
+<div class="toptable">
+        <table class="data">
+                <thead>
+                        <tr>
+                                <td>Item</td>
+                                <td>Last Modified</td>
+                                <td>Size</td>
+                        </tr>
+                </thead>
+                <tbody>
+                        <? LOOP ListLoop ?>
+                        <tr class="<? IF __EVEN__ ?>evenrow<? ELSE ?>oddrow<? ENDIF ?>">
+                                <td><a href="<? VAR scope ?>"><? VAR item ?></a></td>
+                                <td width="200px"><? VAR modified ?></td>
+                                <td width="125px"><? VAR size ?></td>
+                        </tr>
+                        <? ENDLOOP ?>
+                </tbody>
+        </table>
+</div>
+
+<br />
+<? ENDIF ?>
+
+<? IF LogErrorLoop ?>
+<div class="section">
+	<h3>Error</h3>
+	<div class="sectionbg">
+		<div class="sectionbody">
+			<div class="subsection">
+				<p><b>The following errors occured:</b> 
+				<ul>
+				<? LOOP LogErrorLoop ?>
+				<? IF Error ?>
+				<li><? VAR Error ?></li>
+				<? ENDIF ?>
+				<? ENDLOOP ?>
+
+			</div>
+		</div>
+	</div>
+</div>
+<? ENDIF ?>
+
+<? INC Footer.tmpl ?>

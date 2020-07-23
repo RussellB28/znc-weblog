@@ -1,0 +1,25 @@
+<div class="section">
+	<h3>Settings</h3>
+	<div class="sectionbg">
+		<div class="sectionbody">
+			<div class="subsection">
+				<form name="scope" action="index" method="post" style="display:inline;">
+				<? INC _csrf_check.tmpl ?>
+				<div class="inputlabel"><label for="name">Scope:</label></div>
+				<select name="scope">
+				<? LOOP ScopeLoop ?>
+					<option value="<? VAR network ?>" <? IF active ?>selected="selected"<? ENDIF ?>><? VAR network ?></option>
+				<? ENDLOOP ?>
+				</select><br />
+				<span class="info">Note: Please be sure to select the appropriate scope. If you have log loaded at multiple levels, logs will be retrieved at their set level.</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="submitline">
+	<input type="submit" value="Set" />
+</div>
+</form>
+<br />
+<br />
+

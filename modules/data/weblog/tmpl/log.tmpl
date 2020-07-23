@@ -1,0 +1,49 @@
+<? INC Header.tmpl ?>
+
+<? INC Scope.tmpl ?>
+
+<? INC Breadcrumbs.tmpl ?>
+
+<? IF !LogErrorLoop ?>
+<? LOOP LogLoop ?><a href="<? VAR raw ?>">Raw</a> || <a href="<? VAR download ?>">Download</a><? ENDLOOP ?>
+
+<style type="text/css">
+pre {
+  background: WhiteSmoke;
+  color: black;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  padding: 5px;
+}
+</style>
+
+<pre>
+<? LOOP LogLoop ?><? VAR log ?><? LogLoop ?><? ENDLOOP ?>
+</pre>
+<br /><br />
+<? ENDIF ?>
+
+<? IF LogErrorLoop ?>
+<div class="section">
+	<h3>Error</h3>
+	<div class="sectionbg">
+		<div class="sectionbody">
+			<div class="subsection">
+				<p><b>The following errors occured:</b> 
+				<ul>
+				<? LOOP LogErrorLoop ?>
+				<? IF Error ?>
+				<li><? VAR Error ?></li>
+				<? ENDIF ?>
+				<? ENDLOOP ?>
+
+			</div>
+		</div>
+	</div>
+</div>
+<? ENDIF ?>
+
+<? INC Footer.tmpl ?>

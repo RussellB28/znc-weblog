@@ -1,0 +1,12 @@
+<div id="breadcrumb">
+    <? LOOP BreadcrumbLoop ?>
+        <? IF islog ?>
+            / <? VAR crumbtext ?>
+        <? ELSE ?>
+            / <a href="index?dir=<? VAR crumburl ?>">
+                <? VAR crumbtext ?>
+            </a>
+        <? ENDIF ?>
+    <? ENDLOOP ?>
+</div>
+<br />
