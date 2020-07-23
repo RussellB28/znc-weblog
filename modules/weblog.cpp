@@ -98,8 +98,6 @@ class CWebLog : public CModule {
 	 */
 
 	vector<CString>& ListDirectory(const CString& sDirectory) {
-		const char* sDir = sDirectory.c_str();
-		printf (std::string(sDirectory).c_str());
 		m_vFiles.clear();
 		CDir Dir = sDirectory;
 
@@ -107,8 +105,6 @@ class CWebLog : public CModule {
 			for (unsigned int a = 0; a < Dir.size(); a++) {
 				CFile& File = *Dir[a];
 				m_vFiles.push_back(File.GetShortName());
-				const char* sFile = File.GetShortName().c_str();
-				printf (std::string(sFile).c_str());
 			}
 		}
 		return m_vFiles;
