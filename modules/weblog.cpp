@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,9 +23,9 @@ using std::vector;
 
 class CWebLog : public CModule {
   public:
-    MODCONSTRUCTOR(CWebLog) {}
+	MODCONSTRUCTOR(CWebLog) {}
 
-    ~CWebLog() override {}
+	~CWebLog() override {}
 	vector<CString> m_vFiles;
 
 	/**
@@ -43,12 +43,12 @@ class CWebLog : public CModule {
 	 * @param Tmpl The active template for adding variables and loops
 	 */
 
-    bool OnWebRequest(CWebSock& WebSock, const CString& sPageName, CTemplate& Tmpl) override {
- 		std::shared_ptr<CWebSession> spSession = WebSock.GetSession();
+	bool OnWebRequest(CWebSock& WebSock, const CString& sPageName, CTemplate& Tmpl) override {
+		std::shared_ptr<CWebSession> spSession = WebSock.GetSession();
 		CString sUsername = WebSock.GetUser();
 		CString sDirectory = WebSock.GetParam("dir", false);
 
-        if (sPageName.AsLower() == "index") {
+		if (sPageName.AsLower() == "index") {
 			if (!WebSock.GetParam("scope", true).empty()) {
 				CString sScope = WebSock.GetRawParam("scope", true);
 				SetScope(sScope, WebSock, Tmpl);
@@ -60,24 +60,24 @@ class CWebLog : public CModule {
 			} else {
 				ListDir(Tmpl, sDirectory, WebSock);
 			}
-        } else if (sPageName.AsLower() == "log" || sPageName.AsLower() == "raw") {
+		} else if (sPageName.AsLower() == "log" || sPageName.AsLower() == "raw") {
 			ViewLog(Tmpl, sDirectory, WebSock, sPageName);
 		} else if (sPageName.AsLower() == "download") {
 			DownloadLog(Tmpl, sDirectory, WebSock);
 		}
 
 		GetScopes(WebSock, Tmpl);
-        return true;
-    }
+		return true;
+	}
 
 	/**
 	 * WebRequiresLogin
 	 * Check whether this module requires the user to be logged in to use the web side of the module
 	 */
 
-    bool WebRequiresLogin() override {
-        return true;
-    }
+	bool WebRequiresLogin() override {
+		return true;
+	}
 
 	/**
 	 * ValidateWebRequestCSRFCheck
@@ -86,10 +86,10 @@ class CWebLog : public CModule {
 	 * @param sPageName The name of the page that has been requested
 	 */
 
-    bool ValidateWebRequestCSRFCheck(CWebSock& WebSock,
-        const CString& sPageName) override {
-        return true;
-    }
+	bool ValidateWebRequestCSRFCheck(CWebSock& WebSock,
+		const CString& sPageName) override {
+		return true;
+	}
 
 	/**
 	 * ListDirectory
@@ -104,7 +104,7 @@ class CWebLog : public CModule {
 		CDir Dir = sDirectory;
 
 		if(CFile::Exists(sDirectory)) {
-		    for (unsigned int a = 0; a < Dir.size(); a++) {
+			for (unsigned int a = 0; a < Dir.size(); a++) {
 				CFile& File = *Dir[a];
 				m_vFiles.push_back(File.GetShortName());
 				const char* sFile = File.GetShortName().c_str();
@@ -264,7 +264,7 @@ class CWebLog : public CModule {
 
 				CString sURL;
 				off_t sSize = GetSize(sBase + sPath);
-    			time_t iMTime = CFile::GetMTime(sBase + sPath);
+				time_t iMTime = CFile::GetMTime(sBase + sPath);
 
 				if(CFile::IsDir(sBase + sPath)) {
 					sURL = "?dir=" + sPath;
@@ -331,14 +331,14 @@ class CWebLog : public CModule {
 			return true;
 		}
 
-    	if (!pFile.Seek(0)) {
+		if (!pFile.Seek(0)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "Unable to read file '" + sDir + "'";
 			return true;
-    	}
+		}
 
 		CString sLog;
-    	while (pFile.ReadLine(sLine)) {
+		while (pFile.ReadLine(sLine)) {
 			sLog.append(sLine);
 		}	
 		pFile.Close();
@@ -402,15 +402,15 @@ class CWebLog : public CModule {
 			return true;
 		}
 
-    	if (!pFile.Seek(0)) {
+		if (!pFile.Seek(0)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "Unable to read file '" + sDir + "'";
 			return true;
-    	}
+		}
 
 		CString sLog;
 		off_t sSize = GetSize(sPath);
-    	time_t iMTime = pFile.GetMTime();
+		time_t iMTime = pFile.GetMTime();
 		WebSock.AddHeader("Content-Transfer-Encoding", "binary");
 		WebSock.AddHeader("Last Modified", WebSock.GetDate(iMTime));
 		WebSock.AddHeader("Accept-Ranges", "bytes");
@@ -418,7 +418,7 @@ class CWebLog : public CModule {
 		WebSock.AddHeader("Content-Encoding", "none");
 		WebSock.AddHeader("Content-Type", "text/plain");
 		WebSock.AddHeader("Content-Disposition", "attachment; filename=" + sFilename);
-    	while (pFile.ReadLine(sLine)) {
+		while (pFile.ReadLine(sLine)) {
 			sLog.append(sLine);
 		}	
 		pFile.Close();
@@ -466,7 +466,7 @@ class CWebLog : public CModule {
 		}
 
 		if (stat(sFile.c_str(), &st) != 0) {
-		    return 0;
+			return 0;
 		}
 
 		return st.st_size;
@@ -475,7 +475,7 @@ class CWebLog : public CModule {
 
 template <>
 void TModInfo<CWebLog>(CModInfo& Info) {
-    Info.SetWikiPage("weblog");
+	Info.SetWikiPage("weblog");
 }
 
 GLOBALMODULEDEFS(CWebLog, t_s("Allows viewing of log files created by the log module from the webadmin."))
