@@ -291,7 +291,7 @@ class CWebLog : public CModule {
 	 * @param sPageName The name of the page we are viewing. Used to determine whether we should show the raw or templated log
 	 */
 
-	bool ViewLog(CTemplate& Tmpl, CString& sDir, CWebSock& WebSock, const CString& sPageName)
+	void ViewLog(CTemplate& Tmpl, CString& sDir, CWebSock& WebSock, const CString& sPageName)
 	{
 		CString sLine;
 		CString sUsername = WebSock.GetUser();
@@ -301,7 +301,7 @@ class CWebLog : public CModule {
 		if(!IsAllowedPath(sUsername, sPath)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "You do not have permission to view '/logs" + sDir + "'";
-			return true;			
+			return;			
 		}
  
 		CTemplate& Row = Tmpl.AddRow("LogLoop");	
@@ -309,7 +309,7 @@ class CWebLog : public CModule {
 		if (!CFile::Exists(sPath)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "File " + sDir + " does not exist";
-			return true;
+			return;
 		}
 
 		CFile pFile(sPath);
@@ -317,20 +317,20 @@ class CWebLog : public CModule {
 		if (pFile.IsDir()) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "File '" + sDir + "' is a directory";
-			return true;
+			return;
 		}	
 
 	
 		if(!pFile.Open(int(O_RDONLY), mode_t(0600))) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "Unable to open file '" + sDir + "'";
-			return true;
+			return;
 		}
 
 		if (!pFile.Seek(0)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "Unable to read file '" + sDir + "'";
-			return true;
+			return;
 		}
 
 		CString sLog;
@@ -348,7 +348,6 @@ class CWebLog : public CModule {
 			Row["raw"] = "raw?dir=" + sDir.Replace_n("#", "%23");
 			Row["download"] = "download?dir=" + sDir.Replace_n("#", "%23");
 		}
-		return true;
 	}
 
 	/**
@@ -359,7 +358,7 @@ class CWebLog : public CModule {
 	 * @param WebSock The web socket handle being used by the user/session
 	 */
 
-	bool DownloadLog(CTemplate& Tmpl, CString& sDir, CWebSock& WebSock)
+	void DownloadLog(CTemplate& Tmpl, CString& sDir, CWebSock& WebSock)
 	{
 		CString sLine;
 		CString sUsername = WebSock.GetUser();
@@ -372,7 +371,7 @@ class CWebLog : public CModule {
 		if(!IsAllowedPath(sUsername, sPath)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "You do not have permission to view '/logs" + sDir + "'";
-			return true;			
+			return;			
 		}
  
 		CTemplate& Row = Tmpl.AddRow("LogLoop");	
@@ -382,26 +381,26 @@ class CWebLog : public CModule {
 		if (!CFile::Exists(sPath)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "File " + sDir + " does not exist";
-			return true;
+			return;
 		}
 
 		if (pFile.IsDir()) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "File '" + sDir + "' is a directory";
-			return true;
+			return;
 		}	
 
 	
 		if(!pFile.Open(int(O_RDONLY), mode_t(0600))) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "Unable to open file '" + sDir + "'";
-			return true;
+			return;
 		}
 
 		if (!pFile.Seek(0)) {
 			CTemplate& Row = Tmpl.AddRow("LogErrorLoop");
 			Row["Error"] = "Unable to read file '" + sDir + "'";
-			return true;
+			return;
 		}
 
 		CString sLog;
@@ -419,8 +418,6 @@ class CWebLog : public CModule {
 		}	
 		pFile.Close();
 		Row["log"] = sLog;
-
-		return true;
 	}
 
 	/**
